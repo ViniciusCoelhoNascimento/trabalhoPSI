@@ -32,8 +32,9 @@ As versões seguintes aplicarão o Padrão Strategy, tornando o código mais mod
 
 # 📖 Estudos de Caso
 
-- 🧮 Calculadora
-Implementação de uma **Calculadora**, comparando versões com e sem aplicação do padrão **Strategy**.
+- 🧮 Calculadora :Implementação de uma **Calculadora**, comparando versões com e sem aplicação do padrão **Strategy**.
+- [Exemplos de Strategy](https://github.com/willianbolzan/ps/tree/master/src/main/java/patterns/strategy/exemplos){target="_blank"}
+
 
 
 - 💳 Pagamento de Pedidos  
