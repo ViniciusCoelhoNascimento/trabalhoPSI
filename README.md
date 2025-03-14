@@ -28,20 +28,12 @@ As versões seguintes aplicarão o Padrão Strategy, tornando o código mais mod
 ---
 
 ### Padrões de Projeto
-## Strategy
-
-# 📖 Estudos de Caso
-
-- 🧮 Calculadora :Implementação de uma **Calculadora**, comparando versões com e sem aplicação do padrão **Strategy**.
-- [Exemplos de Strategy](https://github.com/willianbolzan/ps/tree/master/src/main/java/patterns/strategy/exemplos){target="_blank"}
+## Strategy: 
+- [Exemplos de Strategy](https://github.com/willianbolzan/ps/tree/master/src/main/java/patterns/strategy/exemplos)
 
 
 
-- 💳 Pagamento de Pedidos  
-Modelagem do **pagamento de um pedido**, permitindo diferentes formas de pagamento (dinheiro, cartão de crédito, débito, PIX).  
-
-
-### 📌 Outros Estudos de Caso  
+### 📌 Outros padrões
 Outros projetos serão adicionados conforme avançamos na disciplina.  
 
 
