@@ -31,6 +31,9 @@ As versões seguintes aplicarão o Padrão Strategy, tornando o código mais mod
 ## Strategy: 
 - [Exemplos de Strategy](https://github.com/willianbolzan/ps/tree/master/src/main/java/patterns/strategy/exemplos)
 
+## Sate: 
+- [Exemplos de State](https://github.com/willianbolzan/ps/tree/master/src/main/java/patterns/state/exemplos)
+
 
 
 ### 📌 Outros padrões
