@@ -5,6 +5,7 @@ public class Aluno {
     private double media;
     private int frequencia;
 
+    @Deprecated
     public Aluno(String nome, double media, int frequencia) {
         this.nome = nome;
         this.media = media;
