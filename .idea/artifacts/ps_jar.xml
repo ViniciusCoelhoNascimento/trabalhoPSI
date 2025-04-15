@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ps:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ps_jar</output-path>
+    <root id="archive" name="ps.jar">
+      <element id="module-output" name="ps" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/java/patterns/flyweight/exemplos/musica/jfugue-5.0.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/jfugue-5.0.9.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

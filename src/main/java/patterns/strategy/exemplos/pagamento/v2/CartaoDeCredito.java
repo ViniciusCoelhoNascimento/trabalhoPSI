@@ -1,11 +1,10 @@
 package patterns.strategy.exemplos.pagamento.v2;
 
 
-
-public class CartaoCredito implements Pagamento {
+public class CartaoDeCredito implements Pagamento {
     private double saldoDisponivel;
 
-    public CartaoCredito(double saldoDisponivel) {
+    public CartaoDeCredito(double saldoDisponivel) {
         this.saldoDisponivel = saldoDisponivel;
     }
 
