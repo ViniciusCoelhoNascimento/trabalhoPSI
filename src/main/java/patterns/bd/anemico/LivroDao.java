@@ -12,7 +12,7 @@ public class LivroDao {
         this.dataSource = dataSource;
     }
 
-    public void inserir(Livro livro) throws SQLException {
+    public void inserir(Livro livro) {
         String sql = "INSERT INTO livro (titulo, autor) VALUES (?, ?)";
         try(
             Connection conexao = dataSource.getConnection();
@@ -34,9 +34,29 @@ public class LivroDao {
 
 
 
-    public List<Livro> listarTodos(){
+    public List<Livro> listarTodos() {
+        String sql = "select id, titulo, autor from livro";
         List<Livro> livros = new ArrayList<>();
-
+        try (Connection conexao = dataSource.getConnection();
+             PreparedStatement stmt = conexao.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Livro livro = new Livro();
+                livro.setId(rs.getInt("id"));
+                livro.setTitulo(rs.getString("titulo"));
+                livro.setAutor(rs.getString("autor"));
+                livros.add(livro);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("zebra");
+        }
         return livros;
+
+
     }
-}
+
+
+
+
+    }
+

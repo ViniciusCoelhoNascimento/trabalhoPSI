@@ -9,6 +9,10 @@ public class Main {
         DataSource dataSource = criarDataSource();
         LivroDao livroDao = new LivroDao(dataSource);
 
+        LivroService livroService = new LivroService(livroDao);
+        livroService.cadastrarLivro("titulo do livro", "autor do livro");
+
+
 
     }
     private static DataSource criarDataSource(){
