@@ -10,7 +10,12 @@ public class Main {
         LivroDao livroDao = new LivroDao(dataSource);
 
         LivroService livroService = new LivroService(livroDao);
-        livroService.cadastrarLivro("titulo do livro", "autor do livro");
+        livroService.cadastrarLivro("dfdfdfdfdfdfdfdf", "autor do livro");
+
+        for(Livro livro: livroService.listarLivros()){
+            System.out.println(livro.getId());
+            System.out.println(livro.getTitulo());
+        }
 
 
 

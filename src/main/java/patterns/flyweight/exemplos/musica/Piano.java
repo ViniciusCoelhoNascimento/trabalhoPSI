@@ -1,7 +1,7 @@
 package patterns.flyweight.exemplos.musica;
 
 import java.util.List;
-import org.jfugue.player.Player;
+//import org.jfugue.player.Player;
 
 public class Piano {
     public void tocar(List<Nota> composicao){
@@ -16,8 +16,8 @@ public class Piano {
             System.out.println(musica);
 
 
-            Player p =new Player();
-            p.play(musica);
+       //     Player p =new Player();
+        //    p.play(musica);
         }
 
     }
