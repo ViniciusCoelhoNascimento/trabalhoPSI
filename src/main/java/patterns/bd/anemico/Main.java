@@ -17,8 +17,6 @@ public class Main {
             System.out.println(livro.getTitulo());
         }
 
-
-
     }
     private static DataSource criarDataSource(){
         PGSimpleDataSource ds = new PGSimpleDataSource();
