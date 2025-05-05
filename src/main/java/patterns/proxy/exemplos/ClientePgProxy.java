@@ -26,13 +26,9 @@ public class ClientePgProxy implements Persistencia{
     public Cliente buscarClientePorId(int id) {
         Cliente cliente = cache.get(id);
 
-
-
-
         if(cliente != null){
             return cliente;
         }
-
         cliente = this.persistencia.buscarClientePorId(id);
 
         if(cliente != null){
