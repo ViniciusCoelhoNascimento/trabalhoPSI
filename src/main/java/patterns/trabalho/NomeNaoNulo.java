@@ -9,9 +9,10 @@ public class NomeNaoNulo implements Nome{
 
     @Override
     public String valor() {
-        if (nome.valor() == null) {
+        String nome = this.nome.valor();
+        if (nome == null) {
             throw new IllegalArgumentException("Nome não pode ser vazio");
         }
-        return nome.valor();
+        return nome;
     }
 }

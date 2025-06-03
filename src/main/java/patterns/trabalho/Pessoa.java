@@ -7,4 +7,7 @@ public final class Pessoa {
         this.nome = nome;
     }
 
+    public String nome() {
+        return nome.valor();
+    }
 }
