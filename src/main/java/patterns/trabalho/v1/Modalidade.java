@@ -8,4 +8,12 @@ public class Modalidade {
         this.nome = nome;
         this.porcentagemMaxima = porcentagemMaxima;
     }
+
+    public Double porcentagemMaxima() {
+        return porcentagemMaxima;
+    }
+
+    public String nome(){
+        return nome;
+    }
 }
