@@ -4,19 +4,42 @@ import java.util.List;
 import java.util.Scanner;
 import patterns.trabalho.v1.command.Command;
 import patterns.trabalho.v1.command.ProcessarModalidadeCommand;
-
+import patterns.trabalho.v1.state.EstadoMenuPrincipal;
+import patterns.trabalho.v1.state.EstadoSistema;
 
 public class SistemaAtividades {
     private List<Modalidade> modalidades;
     private Requerimento requerimentoAtual;
-    private Scanner scanner;
-    
+    private EstadoSistema estadoAtual;
+    private final Scanner scanner;
+
     public SistemaAtividades() {
         this.scanner = new Scanner(System.in);
         this.requerimentoAtual = new Requerimento("123456");
         inicializarModalidades();
     }
-    
+
+    public List<Modalidade> getModalidades() {
+        return modalidades;
+    }
+
+    public Requerimento getRequerimentoAtual() {
+        return requerimentoAtual;
+    }
+
+    public void setEstadoAtual(EstadoSistema estado) {
+        this.estadoAtual = estado;
+    }
+
+    public void iniciar() {
+        estadoAtual = new EstadoMenuPrincipal(this, scanner);
+        while (estadoAtual != null) {
+            estadoAtual.executar();
+        }
+        gerarParecer();
+        scanner.close();
+    }
+
     private void inicializarModalidades() {
         // Adicione aqui as modalidades e atividades
         Modalidade ensino = new Modalidade("Ensino", 40.0);
@@ -69,65 +92,11 @@ public class SistemaAtividades {
         complementacao.adicionarAtividade(new AtividadeComplementar("Participação em projetos sociais, trabalho voluntário em entidades vinculadas a compromissos sociopolíticos", 20, complementacao));
         complementacao.adicionarAtividade(new AtividadeComplementar("Desenvolvimento de atividades socioculturais, artísticas e esportivas (coral, música, dança, bandas, grupos teatrais, esportes, entre outros)", 20, complementacao));
 
-
         this.modalidades = List.of(ensino, extensao, pesInovacao, complementacao);
     }
-    
-    public void iniciar() {
-        int opcao;
-        do {
-            exibirMenuModalidades();
-            opcao = scanner.nextInt();
-            scanner.nextLine();
-            
-            if (opcao > 0 && opcao <= modalidades.size()) {
-                processarModalidade(modalidades.get(opcao - 1));
-            }
-        } while (opcao != 0);
-        
-        gerarParecer();
-        scanner.close();
-    }
-    
-    private void exibirMenuModalidades() {
-        System.out.println("\n=== Menu de Modalidades ===");
-        for (int i = 0; i < modalidades.size(); i++) {
-            System.out.printf("%d. %s%n", i+1, modalidades.get(i).getNome());
-        }
-        System.out.println("0. Finalizar e gerar parecer");
-        System.out.print("Escolha uma opção: ");
-    }
-    
-    private void processarModalidade(Modalidade modalidade) {
-        Command command = new ProcessarModalidadeCommand(this, modalidade, scanner);
-        command.execute();
-    }
-    
-    private void gerarParecer() {
-        
+
+    public void gerarParecer() {
         RequerimentoValidado validado = new RequerimentoValidado("Sistema", requerimentoAtual);
         validado.validar();
-        /*
-        System.out.println("\n=== PARECER DAS ATIVIDADES COMPLEMENTARES ===");
-        System.out.println("Matrícula: " + requerimentoAtual.getMatricula());
-        System.out.println("--------------------------------------------");
-        
-        for (AtividadeDeclarada atividade : requerimentoAtual.getAtividadesDeclaradas()) {
-            System.out.printf("Atividade: %s%n", atividade.nome());
-            System.out.printf("Modalidade: %s%n", atividade.modalidade().getNome());
-            System.out.printf("Horas declaradas: %d%n", atividade.horasDeclaradas());
-            System.out.println("--------------------------------------------");
-        }
-        
-        HorasPorModalidade horasPorModalidade = new HorasPorModalidade(validado);
-        Map<Modalidade, Integer> totais = horasPorModalidade.horasPorAtividade();
-        
-        System.out.println("\nTOTAIS POR MODALIDADE:");
-        totais.forEach((modalidade, total) -> {
-            System.out.printf("%s: %d (máx. %.1f%%)%n",
-                modalidade.getNome(), 
-                total, 
-                modalidade.porcentagemMaxima());
-        });*/
     }
 }
