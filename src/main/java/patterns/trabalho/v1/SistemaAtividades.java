@@ -1,8 +1,10 @@
 package patterns.trabalho.v1;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
+import patterns.trabalho.v1.command.Command;
+import patterns.trabalho.v1.command.ProcessarModalidadeCommand;
+
 
 public class SistemaAtividades {
     private List<Modalidade> modalidades;
@@ -97,35 +99,8 @@ public class SistemaAtividades {
     }
     
     private void processarModalidade(Modalidade modalidade) {
-        int opcao;
-        do {
-            System.out.println("\n=== " + modalidade.getNome() + " ===");
-            System.out.println("Atividades disponíveis:");
-            
-            List<AtividadeComplementar> atividades = modalidade.getAtividades();
-            for (int i = 0; i < atividades.size(); i++) {
-                System.out.printf("%d. %s (Limite: %d horas)%n", 
-                    i+1, 
-                    atividades.get(i).nome(), 
-                    atividades.get(i).limiteMaximo());
-            }
-            System.out.println("0. Voltar");
-            System.out.print("Escolha uma atividade: ");
-            
-            opcao = scanner.nextInt();
-            scanner.nextLine();
-            
-            if (opcao > 0 && opcao <= atividades.size()) {
-                System.out.print("Informe a quantidade de horas: ");
-                int horas = scanner.nextInt();
-                scanner.nextLine();
-                
-                AtividadeComplementar atividade = atividades.get(opcao - 1);
-                AtividadeDeclarada atividadeDeclarada = new AtividadeDeclarada(atividade, horas);
-                requerimentoAtual.adicionar(atividadeDeclarada);
-                System.out.println("Atividade adicionada com sucesso!");
-            }
-        } while (opcao != 0);
+        Command command = new ProcessarModalidadeCommand(this, modalidade, scanner);
+        command.execute();
     }
     
     private void gerarParecer() {
