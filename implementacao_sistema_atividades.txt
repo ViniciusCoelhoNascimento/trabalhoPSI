@@ -1,0 +1,169 @@
+# Implementação do Sistema de Atividades Complementares
+
+## Estrutura de Arquivos Necessários
+
+1. **SistemaAtividades.java** - Classe principal do sistema
+2. **Atualizações nas classes existentes** (Modalidade, etc.)
+
+## Código Fonte
+
+### 1. SistemaAtividades.java
+```java
+package patterns.trabalho.v1;
+
+import java.util.List;
+import java.util.Scanner;
+import java.util.Map;
+
+public class SistemaAtividades {
+    private List<Modalidade> modalidades;
+    private Requerimento requerimentoAtual;
+    private Scanner scanner;
+    
+    public SistemaAtividades() {
+        this.scanner = new Scanner(System.in);
+        this.requerimentoAtual = new Requerimento("123456");
+        inicializarModalidades();
+    }
+    
+    private void inicializarModalidades() {
+        // Adicione aqui as modalidades e atividades
+        Modalidade ensino = new Modalidade("Ensino", 40.0);
+        ensino.adicionarAtividade(new AtividadeComplementar("Ministrar curso", 20, ensino));
+        // Adicione outras modalidades e atividades...
+        
+        this.modalidades = List.of(ensino); // Adicione outras modalidades aqui
+    }
+    
+    public void iniciar() {
+        int opcao;
+        do {
+            exibirMenuModalidades();
+            opcao = scanner.nextInt();
+            scanner.nextLine();
+            
+            if (opcao > 0 && opcao <= modalidades.size()) {
+                processarModalidade(modalidades.get(opcao - 1));
+            }
+        } while (opcao != 0);
+        
+        gerarParecer();
+        scanner.close();
+    }
+    
+    private void exibirMenuModalidades() {
+        System.out.println("\n=== Menu de Modalidades ===");
+        for (int i = 0; i < modalidades.size(); i++) {
+            System.out.printf("%d. %s%n", i+1, modalidades.get(i).getNome());
+        }
+        System.out.println("0. Finalizar e gerar parecer");
+        System.out.print("Escolha uma opção: ");
+    }
+    
+    private void processarModalidade(Modalidade modalidade) {
+        int opcao;
+        do {
+            System.out.println("\n=== " + modalidade.getNome() + " ===");
+            System.out.println("Atividades disponíveis:");
+            
+            List<AtividadeComplementar> atividades = modalidade.getAtividades();
+            for (int i = 0; i < atividades.size(); i++) {
+                System.out.printf("%d. %s (Limite: %d horas)%n", 
+                    i+1, 
+                    atividades.get(i).nome(), 
+                    atividades.get(i).limiteMaximo());
+            }
+            System.out.println("0. Voltar");
+            System.out.print("Escolha uma atividade: ");
+            
+            opcao = scanner.nextInt();
+            scanner.nextLine();
+            
+            if (opcao > 0 && opcao <= atividades.size()) {
+                System.out.print("Informe a quantidade de horas: ");
+                int horas = scanner.nextInt();
+                scanner.nextLine();
+                
+                AtividadeComplementar atividade = atividades.get(opcao - 1);
+                AtividadeDeclarada atividadeDeclarada = new AtividadeDeclarada(atividade, horas);
+                requerimentoAtual.adicionar(atividadeDeclarada);
+                System.out.println("Atividade adicionada com sucesso!");
+            }
+        } while (opcao != 0);
+    }
+    
+    private void gerarParecer() {
+        RequerimentoValidado validado = new RequerimentoValidado("Sistema", requerimentoAtual);
+        validado.validar();
+        
+        System.out.println("\n=== PARECER DAS ATIVIDADES COMPLEMENTARES ===");
+        System.out.println("Matrícula: " + requerimentoAtual.getMatricula());
+        System.out.println("--------------------------------------------");
+        
+        for (AtividadeDeclarada atividade : requerimentoAtual.getAtividadesDeclaradas()) {
+            System.out.printf("Atividade: %s%n", atividade.getAtividade().nome());
+            System.out.printf("Modalidade: %s%n", atividade.getAtividade().getModalidade().getNome());
+            System.out.printf("Horas declaradas: %d%n", atividade.getHorasDeclaradas());
+            System.out.printf("Horas validadas: %d%n", atividade.getHorasValidadas());
+            System.out.println("--------------------------------------------");
+        }
+        
+        HorasPorModalidade horasPorModalidade = new HorasPorModalidade(validado);
+        Map<Modalidade, Integer> totais = horasPorModalidade.horasPorAtividade();
+        
+        System.out.println("\nTOTAIS POR MODALIDADE:");
+        totais.forEach((modalidade, total) -> {
+            System.out.printf("%s: %d/%d horas%n", 
+                modalidade.getNome(), 
+                total, 
+                (int)modalidade.getLimiteHoras());
+        });
+    }
+}
+```
+
+### 2. Atualização da Classe Main.java
+```java
+package patterns.trabalho.v1;
+
+public class Main {
+    public static void main(String[] args) {
+        SistemaAtividades sistema = new SistemaAtividades();
+        sistema.iniciar();
+    }
+}
+```
+
+### 3. Atualização da Classe Modalidade.java
+```java
+// Adicione estes métodos à classe Modalidade
+private List<AtividadeComplementar> atividades = new ArrayList<>();
+
+public void adicionarAtividade(AtividadeComplementar atividade) {
+    this.atividades.add(atividade);
+}
+
+public List<AtividadeComplementar> getAtividades() {
+    return atividades;
+}
+```
+
+## Padrões de Projeto Aplicáveis
+
+1. **Command Pattern**: Para implementar os comandos do menu
+2. **State Pattern**: Para gerenciar os estados do sistema
+3. **Observer Pattern**: Para notificar mudanças
+4. **Factory Method**: Para criar diferentes tipos de atividades
+
+## Instruções de Uso
+
+1. Crie as classes conforme mostrado acima
+2. Implemente as modalidades e atividades no método `inicializarModalidades()`
+3. Execute a classe `Main` para iniciar o sistema
+4. Siga o menu interativo para adicionar atividades e gerar o parecer
+
+## Observações
+
+- Certifique-se de que todas as classes referenciadas (Modalidade, AtividadeComplementar, etc.) estejam no seu projeto
+- Ajuste os limites de horas e as atividades conforme necessário
+- Adicione tratamento de exceções para entradas inválidas
