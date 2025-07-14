@@ -50,7 +50,6 @@ public class SistemaAtividades {
         while (estadoAtual != null) {
             estadoAtual.executar();
         }
-        gerarParecer();
         scanner.close();
     }
 

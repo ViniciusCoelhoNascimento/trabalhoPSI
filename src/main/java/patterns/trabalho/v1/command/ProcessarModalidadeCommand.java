@@ -2,6 +2,7 @@ package patterns.trabalho.v1.command;
 
 import patterns.trabalho.v1.Modalidade;
 import patterns.trabalho.v1.SistemaAtividades;
+import patterns.trabalho.v1.AtividadeDeclarada;
 import java.util.Scanner;
 
 public class ProcessarModalidadeCommand implements Command {
@@ -19,7 +20,7 @@ public class ProcessarModalidadeCommand implements Command {
     public void execute() {
         int opcao;
         do {
-            System.out.println("\npadrao commad=== " + modalidade.getNome() + " ===");
+            System.out.println("\n=== " + modalidade.getNome() + " ===");
             System.out.println("Atividades disponíveis:");
             
             var atividades = modalidade.getAtividades();
@@ -40,8 +41,10 @@ public class ProcessarModalidadeCommand implements Command {
                 int horas = scanner.nextInt();
                 scanner.nextLine();
                 
-                // Aqui você pode adicionar a lógica para processar a atividade
-                System.out.println("Atividade processada com sucesso!");
+                var atividade = atividades.get(opcao - 1);
+                AtividadeDeclarada atividadeDeclarada = new AtividadeDeclarada(atividade, horas);
+                sistema.getRequerimentoAtual().adicionar(atividadeDeclarada);
+                System.out.println("Atividade adicionada com sucesso!");
             }
         } while (opcao != 0);
     }

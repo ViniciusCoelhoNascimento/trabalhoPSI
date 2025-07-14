@@ -2,7 +2,7 @@ package patterns.trabalho.v1.state;
 
 import patterns.trabalho.v1.Modalidade;
 import patterns.trabalho.v1.SistemaAtividades;
-import patterns.trabalho.v1.AtividadeDeclarada;
+import patterns.trabalho.v1.command.ProcessarModalidadeCommand;
 import java.util.Scanner;
 
 public class EstadoProcessarModalidade implements EstadoSistema {
@@ -18,37 +18,9 @@ public class EstadoProcessarModalidade implements EstadoSistema {
 
     @Override
     public void executar() {
-        int opcao;
-        do {
-            System.out.println("\n=== " + modalidade.getNome() + " ===");
-            System.out.println("Atividades disponíveis:");
-            
-            var atividades = modalidade.getAtividades();
-            for (int i = 0; i < atividades.size(); i++) {
-                System.out.printf("%d. %s (Limite: %d horas)%n", 
-                    i+1, 
-                    atividades.get(i).nome(), 
-                    atividades.get(i).limiteMaximo());
-            }
-            System.out.println("0. Voltar");
-            System.out.print("Escolha uma atividade: ");
-            
-            opcao = scanner.nextInt();
-            scanner.nextLine();
-            
-            if (opcao > 0 && opcao <= atividades.size()) {
-                System.out.print("Informe a quantidade de horas: ");
-                int horas = scanner.nextInt();
-                scanner.nextLine();
-                
-                var atividade = atividades.get(opcao - 1);
-                AtividadeDeclarada atividadeDeclarada = new AtividadeDeclarada(atividade, horas);
-                sistema.getRequerimentoAtual().adicionar(atividadeDeclarada);
-                System.out.println("Atividade adicionada com sucesso!");
-            }
-        } while (opcao != 0);
+        ProcessarModalidadeCommand command = new ProcessarModalidadeCommand(sistema, modalidade, scanner);
+        command.execute();
         
-        // Volta para o menu principal
         sistema.setEstadoAtual(new EstadoMenuPrincipal(sistema, scanner));
     }
 }
