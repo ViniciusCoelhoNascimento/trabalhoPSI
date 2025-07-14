@@ -1,8 +1,0 @@
-
-Baixa flexibilidade:
-Se quisermos adicionar uma nova forma de patterns.strategy.exemplos.pagamento, precisamos modificar diretamente a classe Pedido, o
- que fere o princípio Aberto/Fechado (OCP).
-Código menos modular: A lógica de cada patterns.strategy.exemplos.pagamento está dentro do switch, o que pode dificultar a manutenção
-caso as regras mudem.
-Dificuldade de expansão: Se cada forma de patterns.strategy.exemplos.pagamento precisar de regras mais complexas
-(exemplo: taxas, descontos, parcelamentos), o método processarPagamento ficará cada vez maior e mais difícil de gerenciar.
