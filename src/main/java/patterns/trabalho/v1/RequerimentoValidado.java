@@ -1,42 +1,91 @@
 package patterns.trabalho.v1;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Map;
 
 public class RequerimentoValidado {
     private String avaliador;
     private Requerimento requerimento;
     private List<AtividadeValidada> atividadesValidadas;
+    private LocalDate dataValidacao;
 
     public RequerimentoValidado(String avaliador, Requerimento requerimento) {
         this.avaliador = avaliador;
         this.requerimento = requerimento;
         this.atividadesValidadas = new ArrayList<>();
+        this.dataValidacao = LocalDate.now();
     }
 
     public void validar() {
-        Scanner scanner = new Scanner(System.in);
-
+        System.out.println("\n=== PARECER DE VALIDAÇÃO ===");
+        System.out.println("Matrícula: " + requerimento.getMatricula());
+        System.out.println("Data emissão: " + dataValidacao.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        System.out.println();
+        
+        int contadorAtividade = 1;
+        int totalHorasDeclaradas = 0;
+        int totalHorasValidadas = 0;
+        
         // Para cada atividade declarada
         for(AtividadeDeclarada ad: requerimento.getAtividadesDeclaradas()) {
-            System.out.println("Atividade declarada " + ad.nome() + " limite " + ad.limiteMaximo());
-
-            System.out.println("É válida");
-            boolean valida = scanner.nextLine().trim().equalsIgnoreCase("sim");
-
-            int horasValidadas = 0;
-
-            if (valida) {
-                horasValidadas = Integer.parseInt(scanner.nextLine().trim());
+            int horasDeclaradas = ad.horasDeclaradas();
+            int horasValidadas = horasDeclaradas;
+            String observacao = "";
+            
+            totalHorasDeclaradas += horasDeclaradas;
+            
+            // Verifica se excede o limite máximo da atividade
+            if (horasValidadas > ad.limiteMaximo()) {
+                observacao = String.format("Horas declaradas (%dh) excedem o limite (%dh); ajustadas para %dh.", 
+                    horasValidadas, ad.limiteMaximo(), ad.limiteMaximo());
+                horasValidadas = ad.limiteMaximo();
             }
-            this.adicionar(new AtividadeValidada(ad, horasValidadas));
+            
+            totalHorasValidadas += horasValidadas;
+            
+            // Adiciona a atividade validada
+            AtividadeValidada av = new AtividadeValidada(ad, horasValidadas);
+            this.adicionar(av);
+            
+            // Imprime o resumo da validação
+            System.out.printf("Atividade %d:\n", contadorAtividade++);
+            System.out.printf("  Descrição:       %s\n", ad.nome());
+            System.out.printf("  Modalidade:      %s\n", ad.modalidade().getNome());
+            System.out.printf("  Horas declaradas: %dh\n", horasDeclaradas);
+            System.out.printf("  Limite Máximo:    %dh\n", ad.limiteMaximo());
+            System.out.printf("  Horas validadas:  %dh\n", horasValidadas);
+            if (!observacao.isEmpty()) {
+                System.out.println("  Observação:      " + observacao);
+            }
+            System.out.println();
         }
-
-
-
+        
+        // Imprime totais por modalidade
+        /*
+        System.out.println("\nTOTAIS POR MODALIDADE:");
+        HorasPorModalidade horasPorModalidade = new HorasPorModalidade(this);
+        Map<Modalidade, Integer> totais = horasPorModalidade.horasPorAtividade();
+        
+        totais.forEach((modalidade, total) -> {
+            System.out.printf("%s: %d/%d horas (%.1f%%)\n", 
+                modalidade.getNome(), 
+                total, 
+                (int)(modalidade.porcentagemMaxima() * 100 / 40), // Converte porcentagem para horas baseado em 100h totais
+                modalidade.porcentagemMaxima());
+        });*/
+        
+        // Resumo geral
+        System.out.println("\nResumo geral:");
+        System.out.printf("  Total de horas declaradas: %dh\n", totalHorasDeclaradas);
+        System.out.printf("  Total de horas validadas:  %dh\n", totalHorasValidadas);
+        
+        System.out.println("\nValidação concluída!");
     }
-    public void adicionar(AtividadeValidada atividadeValida){
+    
+    public void adicionar(AtividadeValidada atividadeValida) {
         this.atividadesValidadas.add(atividadeValida);
     }
 
@@ -44,13 +93,11 @@ public class RequerimentoValidado {
         return atividadesValidadas;
     }
 
-    public int  total(){
+    public int total() {
         int t = 0;
         for(AtividadeValidada av : this.atividadesValidadas) {
-            t+=av.horasValidadas();
-
+            t += av.horasValidadas();
         }
         return t;
     }
 }
-

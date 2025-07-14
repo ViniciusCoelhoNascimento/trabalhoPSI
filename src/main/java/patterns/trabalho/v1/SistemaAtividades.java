@@ -129,9 +129,10 @@ public class SistemaAtividades {
     }
     
     private void gerarParecer() {
+        
         RequerimentoValidado validado = new RequerimentoValidado("Sistema", requerimentoAtual);
         validado.validar();
-        
+        /*
         System.out.println("\n=== PARECER DAS ATIVIDADES COMPLEMENTARES ===");
         System.out.println("Matrícula: " + requerimentoAtual.getMatricula());
         System.out.println("--------------------------------------------");
@@ -152,6 +153,6 @@ public class SistemaAtividades {
                 modalidade.getNome(), 
                 total, 
                 modalidade.porcentagemMaxima());
-        });
+        });*/
     }
 }
