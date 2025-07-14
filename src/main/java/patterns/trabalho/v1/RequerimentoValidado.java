@@ -5,7 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequerimentoValidado {
+import patterns.trabalho.v1.observer.SujeitoValidacao;
+
+public class RequerimentoValidado extends SujeitoValidacao {
     private String avaliador;
     private Requerimento requerimento;
     private List<AtividadeValidada> atividadesValidadas;
@@ -45,6 +47,7 @@ public class RequerimentoValidado {
 
             AtividadeValidada av = new AtividadeValidada(ad, horasValidadas);
             this.adicionar(av);
+            notificarObservadores(av);  // Notifica os observadores imediatamente após validar
             
             System.out.printf("Atividade %d:\n", contadorAtividade++);
             System.out.printf("  Descrição:       %s\n", ad.nome());

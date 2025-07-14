@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Scanner;
 import patterns.trabalho.v1.command.Command;
 import patterns.trabalho.v1.command.ProcessarModalidadeCommand;
+import patterns.trabalho.v1.observer.NotificadorEmail;
+import patterns.trabalho.v1.observer.NotificadorSistema;
 import patterns.trabalho.v1.state.EstadoMenuPrincipal;
 import patterns.trabalho.v1.state.EstadoSistema;
 
@@ -12,6 +14,18 @@ public class SistemaAtividades {
     private Requerimento requerimentoAtual;
     private EstadoSistema estadoAtual;
     private final Scanner scanner;
+
+    private void configurarObservadores(RequerimentoValidado validador) {
+        // Adiciona observadores
+        validador.adicionarObservador(new NotificadorEmail("aluno@exemplo.com"));
+        validador.adicionarObservador(new NotificadorSistema("usuario123"));
+    }
+
+    public void gerarParecer() {
+        RequerimentoValidado validado = new RequerimentoValidado("Sistema", requerimentoAtual);
+        configurarObservadores(validado); // Configura os observadores
+        validado.validar(); // Isso irá disparar as notificações
+    }
 
     public SistemaAtividades() {
         this.scanner = new Scanner(System.in);
@@ -41,7 +55,6 @@ public class SistemaAtividades {
     }
 
     private void inicializarModalidades() {
-        // Adicione aqui as modalidades e atividades
         Modalidade ensino = new Modalidade("Ensino", 40.0);
         Modalidade extensao = new Modalidade("Extensão", 40.0);
         Modalidade pesInovacao = new Modalidade("Pesquisa e Inovação", 40.0);
@@ -93,10 +106,5 @@ public class SistemaAtividades {
         complementacao.adicionarAtividade(new AtividadeComplementar("Desenvolvimento de atividades socioculturais, artísticas e esportivas (coral, música, dança, bandas, grupos teatrais, esportes, entre outros)", 20, complementacao));
 
         this.modalidades = List.of(ensino, extensao, pesInovacao, complementacao);
-    }
-
-    public void gerarParecer() {
-        RequerimentoValidado validado = new RequerimentoValidado("Sistema", requerimentoAtual);
-        validado.validar();
     }
 }

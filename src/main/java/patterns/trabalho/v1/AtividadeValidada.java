@@ -16,6 +16,10 @@ public class AtividadeValidada {
     public int horasValidadas(){
         return this.horasValidadas;
     }
+    
+    public AtividadeDeclarada getAtividadeDeclarada() {
+        return this.atividadeDeclarada;
+    }
 
 
 
