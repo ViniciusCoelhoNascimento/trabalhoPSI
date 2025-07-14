@@ -16,14 +16,12 @@ public class HorasPorModalidade {
         for(AtividadeValidada atividadeValidada : requerimentoValidado.getAtividadesValidadas()){
             Modalidade modalidade = atividadeValidada.modalidade();
             int horas = atividadeValidada.horasValidadas();
-            this.horasPorAtividade.put(modalidade, horas);
-            Integer acumulado = horasPorAtividade.get(modalidade);
-            if(acumulado == null){
-                horasPorAtividade.put(modalidade, horas);
-            }
-            else {
-                horasPorAtividade.put(modalidade, acumulado + horas);
-            }
+            
+            // Obtém o valor atual do mapa (ou 0 se ainda não existir)
+            int horasAcumuladas = horasPorAtividade.getOrDefault(modalidade, 0);
+            
+            // Atualiza o mapa com o valor acumulado
+            horasPorAtividade.put(modalidade, horasAcumuladas + horas);
         }
         return horasPorAtividade;
     }

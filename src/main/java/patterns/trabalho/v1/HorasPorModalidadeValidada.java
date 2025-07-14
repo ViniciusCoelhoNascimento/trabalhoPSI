@@ -23,7 +23,7 @@ public class HorasPorModalidadeValidada {
             if (horasM > horasPermitidas) {
                 String msg = String.format(
                         "Modalidade '%s' excede limite: declarou %dh, mas máximo permitido é %dh (%d%% do total).",
-                        modalidade.nome(), horasM, horasPermitidas, pctMax
+                        modalidade.getNome(), horasM, horasPermitidas, pctMax
                 );
                 this.violacoes.add(msg);
                 return true;

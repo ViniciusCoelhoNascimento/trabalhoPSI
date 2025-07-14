@@ -1,8 +1,13 @@
 package patterns.trabalho.v1;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Modalidade {
     private String nome;
     private Double porcentagemMaxima;
+    private List<AtividadeComplementar> atividades = new ArrayList<>();
+
 
     public Modalidade(String nome, Double porcentagemMaxima) {
         this.nome = nome;
@@ -13,7 +18,15 @@ public class Modalidade {
         return porcentagemMaxima;
     }
 
-    public String nome(){
+    public String getNome(){
         return nome;
+    }
+
+    public void adicionarAtividade(AtividadeComplementar atividade) {
+        this.atividades.add(atividade);
+    }
+    
+    public List<AtividadeComplementar> getAtividades() {
+        return atividades;
     }
 }

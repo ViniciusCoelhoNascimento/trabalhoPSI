@@ -20,4 +20,8 @@ public class Requerimento {
     public List<AtividadeDeclarada> getAtividadesDeclaradas() {
         return atividadesDeclaradas;
     }
+    
+    public String getMatricula() {
+        return matricula;
+    }
 }
