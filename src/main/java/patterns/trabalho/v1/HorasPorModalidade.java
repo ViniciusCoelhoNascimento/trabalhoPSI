@@ -17,10 +17,8 @@ public class HorasPorModalidade {
             Modalidade modalidade = atividadeValidada.modalidade();
             int horas = atividadeValidada.horasValidadas();
             
-            // Obtém o valor atual do mapa (ou 0 se ainda não existir)
             int horasAcumuladas = horasPorAtividade.getOrDefault(modalidade, 0);
             
-            // Atualiza o mapa com o valor acumulado
             horasPorAtividade.put(modalidade, horasAcumuladas + horas);
         }
         return horasPorAtividade;

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class RequerimentoValidado {
     private String avaliador;
@@ -28,16 +27,14 @@ public class RequerimentoValidado {
         int contadorAtividade = 1;
         int totalHorasDeclaradas = 0;
         int totalHorasValidadas = 0;
-        
-        // Para cada atividade declarada
+
         for(AtividadeDeclarada ad: requerimento.getAtividadesDeclaradas()) {
             int horasDeclaradas = ad.horasDeclaradas();
             int horasValidadas = horasDeclaradas;
             String observacao = "";
             
             totalHorasDeclaradas += horasDeclaradas;
-            
-            // Verifica se excede o limite máximo da atividade
+
             if (horasValidadas > ad.limiteMaximo()) {
                 observacao = String.format("Horas declaradas (%dh) excedem o limite (%dh); ajustadas para %dh.", 
                     horasValidadas, ad.limiteMaximo(), ad.limiteMaximo());
@@ -45,12 +42,10 @@ public class RequerimentoValidado {
             }
             
             totalHorasValidadas += horasValidadas;
-            
-            // Adiciona a atividade validada
+
             AtividadeValidada av = new AtividadeValidada(ad, horasValidadas);
             this.adicionar(av);
             
-            // Imprime o resumo da validação
             System.out.printf("Atividade %d:\n", contadorAtividade++);
             System.out.printf("  Descrição:       %s\n", ad.nome());
             System.out.printf("  Modalidade:      %s\n", ad.modalidade().getNome());
@@ -63,21 +58,6 @@ public class RequerimentoValidado {
             System.out.println();
         }
         
-        // Imprime totais por modalidade
-        /*
-        System.out.println("\nTOTAIS POR MODALIDADE:");
-        HorasPorModalidade horasPorModalidade = new HorasPorModalidade(this);
-        Map<Modalidade, Integer> totais = horasPorModalidade.horasPorAtividade();
-        
-        totais.forEach((modalidade, total) -> {
-            System.out.printf("%s: %d/%d horas (%.1f%%)\n", 
-                modalidade.getNome(), 
-                total, 
-                (int)(modalidade.porcentagemMaxima() * 100 / 40), // Converte porcentagem para horas baseado em 100h totais
-                modalidade.porcentagemMaxima());
-        });*/
-        
-        // Resumo geral
         System.out.println("\nResumo geral:");
         System.out.printf("  Total de horas declaradas: %dh\n", totalHorasDeclaradas);
         System.out.printf("  Total de horas validadas:  %dh\n", totalHorasValidadas);
